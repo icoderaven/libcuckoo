@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 3.1.0)
-project(libcuckoo LANGUAGES C CXX)
+project(
+  libcuckoo
+  VERSION 0.3.0
+  LANGUAGES C CXX)
 
-set(libcuckoo_VERSION_MAJOR 0)
-set(libcuckoo_VERSION_MINOR 3)
-set(libcuckoo_VERSION_PATCH 0)
+# Check if this CMakeLists is being used directly or via add_subdirectory
+set(INSTALL_CONFIG OFF)
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(INSTALL_CONFIG ON)
+endif()
 
 # put these in the cache so they show up in ccmake
-option (BUILD_EXAMPLES "build example libcuckoo programs")
+option(LIBCUCKOO_BUILD_EXAMPLES "build example libcuckoo programs")
 
 # Add the libcuckoo interface target
 add_subdirectory(libcuckoo)
@@ -15,10 +20,12 @@ add_subdirectory(libcuckoo)
 add_subdirectory(libcuckoo-c)
 
 # Build examples
-if(BUILD_EXAMPLES)
+if(LIBCUCKOO_BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
 
-# Build tests -- this only builds tests that were specified
-enable_testing()
-add_subdirectory(tests)
+if(INSTALL_CONFIG)
+  # Build tests -- this only builds tests that were specified
+  enable_testing()
+  add_subdirectory(tests)
+endif()
