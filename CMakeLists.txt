@@ -5,9 +5,14 @@ project(
   LANGUAGES C CXX)
 
 # Check if this CMakeLists is being used directly or via add_subdirectory
-set(INSTALL_CONFIG OFF)
+set(LIBCUCKOO_MASTER_PROJECT OFF)
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-  set(INSTALL_CONFIG ON)
+  set(LIBCUCKOO_MASTER_PROJECT ON)
+endif()
+
+# Allow for parent CMakeLists to populate the outgoing targets file
+if(NOT LIBCUCKOO_EXPORT_NAME)
+  set(LIBCUCKOO_EXPORT_NAME "${PROJECT_NAME}-targets")
 endif()
 
 # put these in the cache so they show up in ccmake

@@ -21,24 +21,23 @@ target_include_directories(
 # switch on threading for all targets that link with libcuckoo
 target_link_libraries(libcuckoo INTERFACE Threads::Threads)
 
-if(INSTALL_CONFIG)
-  # cmake packaging
-  set(libcuckoo_pkgloc "share/cmake/libcuckoo")
+# cmake packaging
+set(libcuckoo_pkgloc "share/cmake/${PROJECT_NAME}")
 
-  write_basic_package_version_file(
-    "libcuckoo-config-version.cmake"
-    VERSION ${libcuckoo_VERSION}
-    COMPATIBILITY AnyNewerVersion)
+write_basic_package_version_file(
+  "${PROJECT_NAME}-config-version.cmake"
+  VERSION ${libcuckoo_VERSION}
+  COMPATIBILITY AnyNewerVersion)
 
-  install(TARGETS libcuckoo EXPORT libcuckoo-targets)
-  install(
-    EXPORT libcuckoo-targets
-    DESTINATION ${libcuckoo_pkgloc}
-    FILE "libcuckoo-targets.cmake")
-  install(FILES libcuckoo-config.cmake
-                ${CMAKE_CURRENT_BINARY_DIR}/libcuckoo-config-version.cmake
-          DESTINATION ${libcuckoo_pkgloc})
-  install(FILES cuckoohash_config.hh cuckoohash_map.hh cuckoohash_util.hh
-                bucket_container.hh
-          DESTINATION ${CMAKE_INSTALL_PREFIX}/include/libcuckoo)
-endif()
+install(TARGETS libcuckoo EXPORT "${LIBCUCKOO_EXPORT_NAME}")
+
+install(
+  EXPORT "${LIBCUCKOO_EXPORT_NAME}"
+  DESTINATION ${libcuckoo_pkgloc})
+
+install(FILES libcuckoo-config.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/libcuckoo-config-version.cmake
+        DESTINATION ${libcuckoo_pkgloc})
+install(FILES cuckoohash_config.hh cuckoohash_map.hh cuckoohash_util.hh
+              bucket_container.hh
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/libcuckoo)
