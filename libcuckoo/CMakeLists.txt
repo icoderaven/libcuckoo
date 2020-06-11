@@ -7,6 +7,7 @@ find_package(Threads REQUIRED)
 
 # libcuckoo is an interface (all headers) library target
 add_library(libcuckoo INTERFACE)
+add_library(libcuckoo::libcuckoo ALIAS libcuckoo)  # to match exported target when add_subdirectory()ied
 
 # tag libcuckoo target with a c++11 feature so that libcuckoo users will have
 # c++11 turned on in their compile when they use this target. XXX: newer cmakes

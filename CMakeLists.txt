@@ -14,7 +14,7 @@ endif()
 if(NOT LIBCUCKOO_EXPORT_NAME)
   set(LIBCUCKOO_EXPORT_NAME "${PROJECT_NAME}-targets")
 endif()
-message("[libcuckoo]:: Export name is ${LIBCUCKOO_EXPORT_NAME}")
+message(STATUS "[libcuckoo]:: Export name is ${LIBCUCKOO_EXPORT_NAME}")
 
 # put these in the cache so they show up in ccmake
 option(LIBCUCKOO_BUILD_EXAMPLES "build example libcuckoo programs")
