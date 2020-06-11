@@ -5,28 +5,28 @@ target_include_directories(test_util INTERFACE
 )
 
 # put these in the cache so they show up in ccmake
-option (BUILD_TESTS "build all libcuckoo tests")
-option (BUILD_STRESS_TESTS "build the stress tests")
-option (BUILD_UNIT_TESTS "build the unit tests")
-option (BUILD_UNIVERSAL_BENCHMARK "build the universal benchmark and associated tests")
+option (LIBCUCKOO_BUILD_TESTS "build all libcuckoo tests")
+option (LIBCUCKOO_BUILD_STRESS_TESTS "build the stress tests")
+option (LIBCUCKOO_BUILD_UNIT_TESTS "build the unit tests")
+option (LIBCUCKOO_BUILD_UNIVERSAL_BENCHMARK "build the universal benchmark and associated tests")
 
 # Add pcg if we're doing stress tests or universal benchmark
-if (BUILD_TESTS OR
-    BUILD_STRESS_TESTS OR
-    BUILD_UNIVERSAL_BENCHMARK)
+if (LIBCUCKOO_BUILD_TESTS OR
+    LIBCUCKOO_BUILD_STRESS_TESTS OR
+    LIBCUCKOO_BUILD_UNIVERSAL_BENCHMARK)
     add_subdirectory(pcg)
 endif()
 
 # Add catch for unit tests
-if (BUILD_TESTS OR BUILD_UNIT_TESTS)
+if (LIBCUCKOO_BUILD_TESTS OR LIBCUCKOO_BUILD_UNIT_TESTS)
     add_subdirectory(Catch)
     add_subdirectory(unit-tests)
 endif()
 
-if (BUILD_TESTS OR BUILD_STRESS_TESTS)
+if (LIBCUCKOO_BUILD_TESTS OR LIBCUCKOO_BUILD_STRESS_TESTS)
     add_subdirectory(stress-tests)
 endif()
 
-if (BUILD_TESTS OR BUILD_UNIVERSAL_BENCHMARK)
+if (LIBCUCKOO_BUILD_TESTS OR LIBCUCKOO_BUILD_UNIVERSAL_BENCHMARK)
     add_subdirectory(universal-benchmark)
 endif()

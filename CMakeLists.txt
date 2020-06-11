@@ -14,6 +14,7 @@ endif()
 if(NOT LIBCUCKOO_EXPORT_NAME)
   set(LIBCUCKOO_EXPORT_NAME "${PROJECT_NAME}-targets")
 endif()
+message("[libcuckoo]:: Export name is ${LIBCUCKOO_EXPORT_NAME}")
 
 # put these in the cache so they show up in ccmake
 option(LIBCUCKOO_BUILD_EXAMPLES "build example libcuckoo programs")
@@ -29,8 +30,6 @@ if(LIBCUCKOO_BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
 
-if(INSTALL_CONFIG)
-  # Build tests -- this only builds tests that were specified
-  enable_testing()
-  add_subdirectory(tests)
-endif()
+# Build tests -- this only builds tests that were specified
+enable_testing()
+add_subdirectory(tests)
