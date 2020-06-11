@@ -7,7 +7,8 @@ find_package(Threads REQUIRED)
 
 # libcuckoo is an interface (all headers) library target
 add_library(libcuckoo INTERFACE)
-add_library(libcuckoo::libcuckoo ALIAS libcuckoo)  # to match exported target when add_subdirectory()ied
+add_library(libcuckoo::libcuckoo ALIAS libcuckoo) # to match exported target
+                                                  # when add_subdirectory()ied
 
 # tag libcuckoo target with a c++11 feature so that libcuckoo users will have
 # c++11 turned on in their compile when they use this target. XXX: newer cmakes
@@ -32,15 +33,19 @@ write_basic_package_version_file(
   "${PROJECT_NAME}-config-version.cmake"
   VERSION ${libcuckoo_VERSION}
   COMPATIBILITY AnyNewerVersion)
-# Install this generated version file and dependency file
-install(FILES libcuckoo-config.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/libcuckoo-config-version.cmake
-        DESTINATION ${libcuckoo_pkgloc})
 
 # Specify the export target name determined by whether we're standalone or not
 install(TARGETS libcuckoo EXPORT "${LIBCUCKOO_EXPORT_NAME}")
 
-install(
-  EXPORT "${LIBCUCKOO_EXPORT_NAME}"
-  NAMESPACE "${PROJECT_NAME}::"
-  DESTINATION ${libcuckoo_pkgloc})
+# Install the targets only if we're the Master project
+if(LIBCUCKOO_MASTER_PROJECT)
+  install(
+    EXPORT "${LIBCUCKOO_EXPORT_NAME}"
+    NAMESPACE "${PROJECT_NAME}::"
+    DESTINATION ${libcuckoo_pkgloc})
+
+  # Install this generated version file and dependency file
+  install(FILES libcuckoo-config.cmake
+                ${CMAKE_CURRENT_BINARY_DIR}/libcuckoo-config-version.cmake
+          DESTINATION ${libcuckoo_pkgloc})
+endif()
